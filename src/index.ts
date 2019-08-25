@@ -1,8 +1,9 @@
 import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = 8099;
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -10,6 +11,8 @@ app.get("*", async (req, res, next) => {
   res.sendStatus(200);
 });
 
-app.listen(port, () => {
+const port = process.env.PORT;
+
+app.listen(port || 3000, () => {
   console.log(`Server listening on port ${port}`);
 });
