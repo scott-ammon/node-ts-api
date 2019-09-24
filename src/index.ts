@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
+import { getSomeExternalData } from "./api/api";
 import { asyncWrapper } from "./utils/asyncWrapper";
 
 dotenv.config();
@@ -16,12 +17,9 @@ const logger = (request: express.Request, response: express.Response, next: any)
 };
 
 app.get("/sample-route", asyncWrapper(async (req, res, next) => {
-  const sampleApi = await axios({
-    method: "GET",
-    url: "http://localhost:3030/test"
-  });
+  const sampleApi = await getSomeExternalData("parameter here");
 
-  res.send(sampleApi.data);
+  res.send(sampleApi);
 }));
 
 app.use((error: any, req: any, res: any, next: any) => {
