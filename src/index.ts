@@ -1,4 +1,3 @@
-import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
 import { getSomeExternalData } from "./api/api";
@@ -17,13 +16,12 @@ const logger = (request: express.Request, response: express.Response, next: any)
 };
 
 app.get("/sample-route", asyncWrapper(async (req, res, next) => {
-  const sampleApi = await getSomeExternalData("parameter here");
-
+  const sampleApi = await getSomeExternalData("param");
   res.send(sampleApi);
 }));
 
 app.use((error: any, req: any, res: any, next: any) => {
-  res.status(500).json({ error: "service unavailable" });
+  res.status(500).json({ error });
 });
 
 app.listen(port || 3000, () => {

@@ -8,6 +8,7 @@ const axiosHelper = (serviceName: string, method: any, url: any, data?: any) => 
     data,
     method,
     url,
+    headers: createHeaders(),
   })
     .then((response: any) => {
       return {
@@ -18,18 +19,28 @@ const axiosHelper = (serviceName: string, method: any, url: any, data?: any) => 
     .catch((error: any) => {
       return {
         response: null,
-        error: errorResponse(serviceName, error)
+        error: createErrorResponse(serviceName, error)
       };
     });
 };
 
-const errorResponse = (serviceName: string, error: any) => {
+const createHeaders = () => {
+  // Extend this func to create custom headers
+  return {
+    "Accept-Language": "en-US",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "User-Agent": "Sample Node-TypeScript API"
+  };
+};
+
+const createErrorResponse = (serviceName: string, error: any) => {
   return `${serviceName}: ${error.response.status} - ${error.response.statusText}`;
 };
 
 export const getSomeExternalData = (param: string) => {
   const url = env + endpoints.sampleEndpoint + param;
-  return axiosHelper("Sample API", "GET", url);
+  return axiosHelper("Some external service", "GET", url);
 };
 
 export const postSomeExternalData = (data: string) => {
